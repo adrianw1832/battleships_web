@@ -1,21 +1,14 @@
-require "spec_helper"
+require 'spec_helper'
+require_relative 'helper'
 
-feature 'Playing multiplayer' do
+feature 'Playing local 2 player game' do
   scenario 'You can fire at the opponent' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -53,20 +46,12 @@ Player Opponent
   end
 
   scenario 'You can pass turn to the opponent' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -75,19 +60,12 @@ Player Opponent
 
   scenario 'You cannot fire twice' do
     visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -96,19 +74,12 @@ Player Opponent
 
   scenario 'Opponent can fire at you' do
     visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -149,20 +120,12 @@ Player Opponent
   end
 
   scenario 'You can pass turn to the opponent' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -173,20 +136,12 @@ Player Opponent
   end
 
   scenario 'You cannot fire twice' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -197,20 +152,12 @@ Player Opponent
   end
 
   scenario 'Player 1 sees winning message' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')
@@ -224,20 +171,12 @@ Player Opponent
   end
 
   scenario 'Player 2 sees winning message' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
+    local_multiplayer
+    fill_in('name', with: 'Bob')
     click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('A1')
     click_button("Opponent's turn")
-    fill_in('coordinate', with: 'B1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    place_one_ship('B1')
     click_button('Start Game')
     fill_in('coordinate', with: 'B1')
     click_button('Fire')

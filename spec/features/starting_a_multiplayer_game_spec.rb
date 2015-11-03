@@ -1,41 +1,77 @@
-require "spec_helper"
+require 'spec_helper'
+require_relative 'helper'
 
 feature 'Starting a new multiplayer game' do
-  scenario 'Starting a new two player game' do
+  scenario 'Starting a new multiplayer game' do
     visit '/'
-    click_button 'Multiplayer'
-    expect(page).to have_content "What's your name?"
+    fill_in('name', with: 'Adrian')
+    click_button('Submit')
+    expect(page).to have_button('Multiplayer Mode')
   end
 
-  scenario "Gives you the chance to fill in yours and opponent's name" do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
-    click_button('Submit')
-    expect(page).to have_content "Let's place your battleships, Adrian!"
+  scenario 'Goes to lobby after entering the name' do
+    multiplayer
+    expect(current_path).to eq '/lobby'
   end
 
-  scenario 'Stays on the same page if both names are not entered' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: '')
-    click_button('Submit')
-    expect(current_path).to eq '/new_game'
+  scenario 'Waits in the lobby until the opponent joins' do
+    multiplayer
+    expect(page).to have_content 'Waiting...'
   end
 
-  scenario 'Your opponent gets to place ships after you have' do
-    visit '/'
-    click_button 'Multiplayer'
-    fill_in('name', with: 'Adrian')
-    fill_in('name2', with: 'Bob')
-    click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
-    click_button("Opponent's turn")
-    expect(page).to have_content "Let's place your battleships, Bob!"
+  xscenario 'Waits in the lobby until the opponent joins' do
+    browser(:one) do
+      multiplayer
+    end
+
+    browser(:two) do
+      visit '/'
+      fill_in('name', with: 'Bob')
+      click_button('Submit')
+      click_button 'Multiplayer Mode'
+      expect(current_path).to eq '/new_board3'
+    end
+  end
+
+  xscenario 'first player goes to board after the opponent joins' do
+    browser(:one) do
+      visit '/'
+      fill_in('name', with: 'Adrian')
+      click_button('Submit')
+      click_button 'Multiplayer Mode'
+    end
+
+    browser(:two) do
+      visit '/'
+      fill_in('name', with: 'Bob')
+      click_button('Submit')
+      click_button 'Multiplayer Mode'
+    end
+
+    browser(:one) do
+      expect(current_path).to eq '/new_board3'
+    end
+  end
+
+  scenario 'player can place ships' do
+    browser(:one) do
+      visit '/'
+      fill_in('name', with: 'Adrian')
+      click_button('Submit')
+      click_button 'Multiplayer Mode'
+    end
+
+    browser(:two) do
+      visit '/'
+      fill_in('name', with: 'Bob')
+      click_button('Submit')
+      click_button 'Multiplayer Mode'
+    end
+
+    browser(:one) do
+      place_all_ships
+      click_button('Start Game')
+      expect(current_path).to eq '/gameplay'
+    end
   end
 end

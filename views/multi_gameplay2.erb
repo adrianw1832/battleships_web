@@ -1,0 +1,20 @@
+<head>
+  <meta http-equiv="refresh" content="5">
+</head>
+
+<% if player_1_go %>
+  <p>Player 1 Own</p>
+  <pre><%= $game.own_board_view($game.player_1) %></pre>
+  <p>Player 1 Opponent</p>
+  <pre><%= $game.opponent_board_view($game.player_1) %></pre>
+<% else %>
+  <p>Player 2 Own</p>
+  <pre><%= $game.own_board_view($game.player_2) %></pre>
+  <p>Player 2 Opponent</p>
+  <pre><%= $game.opponent_board_view($game.player_2) %></pre>
+<% end %>
+<form action="multi_gameplay2", method="post">
+  <input type="text" name="coordinate">
+  <input type="submit" value="Fire">
+</form>
+

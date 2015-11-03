@@ -19,7 +19,7 @@
     <br>
     <input type="submit" value="Place Ship">
   </form>
-  <% if session[:mode] == 'multiplayer' %>
+  <% if session[:mode] == 'local_2_player' %>
     <form action="/new_board2" method="get">
       <input type="submit" value="Opponent's turn">
     </form>

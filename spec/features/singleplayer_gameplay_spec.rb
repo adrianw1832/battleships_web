@@ -1,42 +1,28 @@
 require 'spec_helper'
+require_relative 'helper'
 
 feature 'Playing single player' do
   scenario 'Board should have a randomly placed ship' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
+    singleplayer
     expect($game.player_2).to receive(:place_random_vertical_ship)
     click_button('Start Game')
   end
 
-    scenario 'Board should have a randomly placed ship' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
+  scenario 'Board should have a randomly placed ship' do
+    singleplayer
     expect($game.player_2).to receive(:place_random_horizontal_ship)
     click_button('Start Game')
   end
 
   scenario 'Player can fire at the board' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    singleplayer
+    place_one_ship('A1')
     click_button('Start Game')
     expect(page).to have_button('Fire')
   end
 
   scenario 'Player can see the hit on the board' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
+    singleplayer
     allow($game.player_2).to receive(:place_random_vertical_ship) { $game.player_2.place_ship(Ship.submarine, :A1) }
     click_button('Start Game')
     fill_in('coordinate', with: 'A1')
@@ -59,10 +45,7 @@ feature 'Playing single player' do
     end
 
   scenario 'Player can see the miss on the board' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
+    singleplayer
     allow($game.player_2).to receive(:place_random_vertical_ship) { $game.player_2.place_ship(Ship.submarine, :A1) }
     click_button('Start Game')
     fill_in('coordinate', with: 'A3')
@@ -85,14 +68,8 @@ feature 'Playing single player' do
   end
 
   scenario 'Computer randomly fires back at the player' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    singleplayer
+    place_one_ship('A1')
     click_button('Start Game')
     fill_in('coordinate', with: 'A1')
     allow($game.player_2).to receive(:random_shoot) { $game.player_2.shoot(:A3) }
@@ -115,14 +92,8 @@ feature 'Playing single player' do
   end
 
   scenario 'it goes to results page when game is finished' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    singleplayer
+    place_one_ship('A1')
     allow($game.player_2).to receive(:place_random_vertical_ship) { $game.player_2.place_ship(Ship.submarine, :A1) }
     allow($game.player_2).to receive(:place_random_horizontal_ship) { $game.player_2.place_ship(Ship.submarine, :E6) }
     click_button('Start Game')
@@ -134,11 +105,8 @@ feature 'Playing single player' do
   end
 
   scenario 'it says player 1 wins when player 1 wins' do
-    visit '/new_board'
-    fill_in('coordinate', with: 'A1')
-    select('Destroyer', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+    singleplayer
+    place_one_ship('A1')
     allow($game.player_2).to receive(:place_random_vertical_ship) { $game.player_2.place_ship(Ship.submarine, :A1) }
     allow($game.player_2).to receive(:place_random_horizontal_ship) { $game.player_2.place_ship(Ship.submarine, :E6) }
     click_button('Start Game')
@@ -149,15 +117,9 @@ feature 'Playing single player' do
     expect(page).to have_content 'You have won!'
   end
 
-  scenario 'it says player 1 loses when player 1 loses' do
-    visit '/'
-    click_button 'Single Player'
-    fill_in('name', with: 'Adrian')
-    click_button('Submit')
-    fill_in('coordinate', with: 'A1')
-    select('Submarine', from: 'ship')
-    choose('Vertically')
-    click_button('Place Ship')
+  xscenario 'it says player 1 loses when player 1 loses' do
+    singleplayer
+    place_one_ship('A1')
     click_button('Start Game')
     fill_in('coordinate', with: 'A1')
     allow($game.player_2).to receive(:random_shoot) { $game.player_2.shoot(:A1) }
